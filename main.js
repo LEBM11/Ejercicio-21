@@ -11,9 +11,12 @@ class Server{
         app.listen(config.PORT, () => {
             console.log(`Servidor escuchando en el puerto http://localhost:${config.PORT}`)
         })
-        app.get("/", (req, res) => {res.send("hola mundillo")})
+        app.use("/",(req, res)=>{
+            res.json(
+                "si quieres ver los objetos completos, usa esta ruta: http://localhost:3210/api/pruebas/Todo"
+                )})
+        console.log("si quieres ver los objetos completos, usa esta ruta: http://localhost:3210/api/pruebas/Todo")
         app.use("/api/pruebas", new RoutePruebas().config());
-        
     }    
 }
 
