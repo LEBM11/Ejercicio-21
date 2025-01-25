@@ -1,14 +1,13 @@
 import fs from 'fs/promises';
-import Validaciones from '../../Servicio/Validaciones.js';
 
 class FileSystem {
     constructor() {
         this.path = '/data.json';
-        this.validaciones = new Validaciones();
     } 
 
     Pedir = async (id) => {
     try {
+        console.log('Leyendo archivo...');
         const Archivo = await fs.readFile(this.path, 'utf-8');
         const data = Archivo.find((elemento) => elemento.id === id);
         const Busqueda = await JSON.parse(data)
@@ -20,6 +19,7 @@ class FileSystem {
 
     Subir = async (datos) => {
         try {
+            console.log('Guardando datos...');
             const Datos = JSON.stringify(datos);
             const Guardado = await fs.writeFile(this.path, Datos);
             return this.formateo(Guardado)
@@ -38,3 +38,5 @@ class FileSystem {
         }
         }
 }
+
+export default FileSystem;

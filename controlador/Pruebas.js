@@ -5,10 +5,18 @@ class Controlador{
         this.servicio = new Servicio();
     }
 
+    pedirTodo = async (req, res) => {
+        try{
+            const resultado = await this.servicio.pedirTodo();
+            res.status(200).json(resultado);
+        }catch(e){
+            res.status(500).json({error: e.message});
+        }
+    }
+
     pedir = async (req, res) => {
         try{
-            const id = req.params.id;
-            const resultado = await this.servicio.pedir(id);
+            const resultado = await this.servicio.pedir();
             res.status(200).json(resultado);
         }catch(e){
             res.status(500).json({error: e.message});

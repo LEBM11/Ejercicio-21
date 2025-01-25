@@ -1,17 +1,18 @@
-import Express from 'express';
+import Express, {Router} from 'express';
 import Cors from 'cors';
-import config from "config.js";
-import RoutePruebas from "./router/Pruebas.js";
+import config from "./config.js";
+import RoutePruebas from "./Router/Pruebas.js";
 
 class Server{
-    start(){
+    start = () => {
         const app = Express()
         app.use(Express.json())
         app.use(Cors())
         app.listen(config.PORT, () => {
-            console.log(`Servidor escuchando en el puerto ${config.PORT}`)
+            console.log(`Servidor escuchando en el puerto http://localhost:${config.PORT}`)
         })
-        this.app.use("/api/pruebas", new RoutePruebas().config());
+        app.get("/", (req, res) => {res.send("hola mundillo")})
+        app.use("/api/pruebas", new RoutePruebas().config());
         
     }    
 }

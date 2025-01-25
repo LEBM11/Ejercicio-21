@@ -1,6 +1,5 @@
 import Factory from "../Modelo/Daos/Factory.js";
-import config from "config.js";
-import { ObjectId } from 'mongodb';
+import config from "../config.js";
 import Validaciones from "./Validaciones.js";
 
 class Servicio{
@@ -9,23 +8,40 @@ class Servicio{
         this.validaciones = new Validaciones();
     }
 
-    async pedir(id) {
+    pedirTodo = async () => {
         try {
-            const resultado = await this.validaciones.validar(error, id);
-            if(resultado){
-                const objectId =  ObjectId.createFromHexString(id);
-                return await this.modeloPersistencia.pedir(objectId);
-            }
+            return await this.modeloPersistencia.pedir();
         } catch (err) {
             console.error('Error al pedir el documento:', err.message);
             throw err;
         }
     }
 
-    async subir(datos) {
+    pedir = async () => {
+        try {
+            const palabra = await this.modeloPersistencia.pedir();
+            let string = ""
+            palabra.forEach(element => {
+                if (string === ""){string = element.Palabra}
+                else{
+                    string += " " + element.Palabra
+                    console.log(string)
+                }
+            });
+            setTimeout(() =>{},1000);
+            return string
+        } catch (err) {
+            console.error('Error al pedir el documento:', err.message);
+            throw err;
+        }
+    }
+
+    subir = async (datos) => {
         try {
             const resultado = await this.validaciones.validar(datos);
             if(resultado){
+                datos._id = null
+                datos.Tiempo = Date.now()
                 return await this.modeloPersistencia.subir(datos);}
         } catch (err) {
             console.error('Error al subir los datos:', err.message);
